@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container mt-5">
+    <h1>Reservations</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Catway Number</th>
+          <th>Client Name</th>
+          <th>Boat Name</th>
+          <th>Check In</th>
+          <th>Check Out</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reservations.forEach(reservation => { %>
+          <tr>
+            <td><%= reservation.catwayNumber %></td>
+            <td><%= reservation.clientName %></td>
+            <td><%= reservation.boatName %></td>
+            <td><%= reservation.checkIn %></td>
+            <td><%= reservation.checkOut %></td>
+            <td>
+              <a href="/reservations/<%= reservation._id %>" class="btn btn-info">View</a>
+              <form action="/reservations/<%= reservation._id %>?_method=DELETE" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

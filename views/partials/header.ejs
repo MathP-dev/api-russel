@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Port Management</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/catways">Catways</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/reservations">Reservations</a>
+        </li>
+      <% } %>
+      <li class="nav-item">
+        <a class="nav-link" href="/documentation">API Documentation</a>
+      </li>
+    </ul>
+  </div>
+</nav>

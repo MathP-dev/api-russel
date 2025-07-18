@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container mt-5">
+    <h1>Reservation Details</h1>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Reservation for <%= reservation.clientName %></h5>
+        <p class="card-text">Boat Name: <%= reservation.boatName %></p>
+        <p class="card-text">Catway Number: <%= reservation.catwayNumber %></p>
+        <p class="card-text">Check In: <%= reservation.checkIn %></p>
+        <p class="card-text">Check Out: <%= reservation.checkOut %></p>
+        <a href="/reservations" class="btn btn-primary">Back to Reservations</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

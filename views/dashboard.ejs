@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container mt-5">
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard!</p>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>User Management</h3>
+        <form action="/users/register" method="POST">
+          <h4>Create User</h4>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Create User</button>
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        <h3>Catway Management</h3>
+        <form action="/catways" method="POST">
+          <h4>Create Catway</h4>
+          <div class="form-group">
+            <label for="catwayNumber">Catway Number</label>
+            <input type="number" class="form-control" id="catwayNumber" name="catwayNumber" required>
+          </div>
+          <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" id="type" name="type" required>
+              <option value="short">Short</option>
+              <option value="long">Long</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="catwayState">State</label>
+            <input type="text" class="form-control" id="catwayState" name="catwayState" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Catway</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3>Reservation Management</h3>
+        <form action="/reservations" method="POST">
+          <h4>Create Reservation</h4>
+          <div class="form-group">
+            <label for="catwayNumber">Catway Number</label>
+            <input type="number" class="form-control" id="catwayNumber" name="catwayNumber" required>
+          </div>
+          <div class="form-group">
+            <label for="clientName">Client Name</label>
+            <input type="text" class="form-control" id="clientName" name="clientName" required>
+          </div>
+          <div class="form-group">
+            <label for="boatName">Boat Name</label>
+            <input type="text" class="form-control" id="boatName" name="boatName" required>
+          </div>
+          <div class="form-group">
+            <label for="checkIn">Check In</label>
+            <input type="datetime-local" class="form-control" id="checkIn" name="checkIn" required>
+          </div>
+          <div class="form-group">
+            <label for="checkOut">Check Out</label>
+            <input type="datetime-local" class="form-control" id="checkOut" name="checkOut" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Reservation</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <a href="/catways" class="btn btn-secondary">View Catways</a>
+      <a href="/reservations" class="btn btn-secondary">View Reservations</a>
+    </div>
+  </div>
+</body>
+</html>
