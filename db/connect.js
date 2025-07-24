@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 // Charger le bon fichier .env selon l'environnement
-const envFile = process.env.NODE_ENV === 'test' ? './env/.env.test' : './env/.env';
-require('dotenv').config({path: envFile});
+if (process.env.NODE_ENV !== 'production') {
+  const envFile = process.env.NODE_ENV === 'test' ? './env/.env.test' : './env/.env';
+  require('dotenv').config({path: envFile});
+}
 
 const connectDB = async () => {
   try {
