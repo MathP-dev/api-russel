@@ -15,8 +15,12 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:8888',
-        description: 'Serveur de développement'
+        url: process.env.NODE_ENV === 'production' 
+          ? 'https://russell-api.onrender.com' 
+          : 'http://localhost:8888',
+        description: process.env.NODE_ENV === 'production' 
+          ? 'Serveur de production' 
+          : 'Serveur de développement'
       }
     ],
     components: {
@@ -123,7 +127,7 @@ const options = {
       }
     }
   },
-  apis: ['./routes/*.js', './controller/*.js'], // Chemins vers les fichiers contenant les annotations Swagger
+  apis: ['./routes/*.js', './controller/*.js'],
 };
 
 const specs = swaggerJsdoc(options);
