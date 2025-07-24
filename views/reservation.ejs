@@ -7,15 +7,15 @@
   <%- include('partials/header') %>
 
   <div class="container mt-5">
-    <h1>Reservation Details</h1>
+    <h1>Détails de la réservation</h1>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Reservation for <%= reservation.clientName %></h5>
-        <p class="card-text">Boat Name: <%= reservation.boatName %></p>
-        <p class="card-text">Catway Number: <%= reservation.catwayNumber %></p>
-        <p class="card-text">Check In: <%= reservation.checkIn %></p>
-        <p class="card-text">Check Out: <%= reservation.checkOut %></p>
-        <a href="/reservations" class="btn btn-primary">Back to Reservations</a>
+        <h5 class="card-title">Réservation pour <%= reservation.clientName %></h5>
+        <p class="card-text">Nom du bateau: <%= reservation.boatName %></p>
+        <p class="card-text">Numéro de la passerelle: <%= reservation.catwayNumber %></p>
+        <p class="card-text">Date d'arrivée: <%= reservation.checkIn %></p>
+        <p class="card-text">Date de départ: <%= reservation.checkOut %></p>
+        <a href="/reservations" class="btn btn-primary">Retour aux réservations</a>
       </div>
     </div>
   </div>

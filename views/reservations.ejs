@@ -7,15 +7,15 @@
   <%- include('partials/header') %>
 
   <div class="container mt-5">
-    <h1>Reservations</h1>
+    <h1>Réservations</h1>
     <table class="table">
       <thead>
         <tr>
-          <th>Catway Number</th>
-          <th>Client Name</th>
-          <th>Boat Name</th>
-          <th>Check In</th>
-          <th>Check Out</th>
+          <th>Numéro de la passerelle</th>
+          <th>Nom du client</th>
+          <th>Nom du bateau</th>
+          <th>Date d'arrivée</th>
+          <th>Date de départ</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -28,9 +28,9 @@
             <td><%= reservation.checkIn %></td>
             <td><%= reservation.checkOut %></td>
             <td>
-              <a href="/reservations/<%= reservation._id %>" class="btn btn-info">View</a>
+              <a href="/reservations/<%= reservation._id %>" class="btn btn-info">Voir</a>
               <form action="/reservations/<%= reservation._id %>?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger">Supprimer</button>
               </form>
             </td>
           </tr>
