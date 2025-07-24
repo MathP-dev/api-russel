@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const catwayRoutes = require('./routes/catways');
 const reservationRoutes = require('./routes/reservations');
 const connectDB = require('./db/connect');
+const { specs, swaggerUi } = require('./config/swagger');
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/catways', catwayRoutes);
 app.use('/api/reservations', reservationRoutes);
+
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Gestion des erreurs 404
 app.use(function(req, res, next) {
