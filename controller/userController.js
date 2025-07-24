@@ -25,6 +25,13 @@ exports.loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+    // Si c'est une requête API (Accept: application/json), retourner JSON
+    if (req.headers.accept && req.headers.accept.includes('application/json')) {
+      return res.status(200).json({ user, token });
+    }
+    
+    // Sinon, comportement web normal avec cookie et redirection
     res.cookie('token', token, { httpOnly: true });
     console.log('Login successful, token stored in cookie');
     res.redirect('/dashboard');

@@ -1,21 +1,29 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
-const User = require('../models/User');
+const User = require('../model/User');
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('User API', () => {
-  before(async () => {
+  beforeEach(async () => {
     await User.deleteMany({});
+    
+    // Créer un utilisateur de test pour le login
+    const testUser = new User({
+      name: 'Test User',
+      email: 'test@example.com',
+      password: 'admin'
+    });
+    await testUser.save();
   });
 
   it('should register a new user', (done) => {
     const user = {
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123'
+      name: 'New User',
+      email: 'newuser@example.com',
+      password: 'admin'
     };
     chai.request(app)
       .post('/users/register')
@@ -30,10 +38,11 @@ describe('User API', () => {
   it('should login a user', (done) => {
     const user = {
       email: 'test@example.com',
-      password: 'password123'
+      password: 'admin'
     };
     chai.request(app)
       .post('/users/login')
+      .set('Accept', 'application/json')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(200);

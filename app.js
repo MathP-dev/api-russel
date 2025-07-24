@@ -17,9 +17,12 @@ const app = express();
 connectDB()
   .then(() => {
     console.log("MongoDB est connecté");
-    app.listen(port, () => {
-      console.log(`Serveur lancé sur le port ${port}`);
-    });
+    // Ne lancer le serveur que si ce fichier est exécuté directement (pas dans les tests)
+    if (require.main === module) {
+      app.listen(port, () => {
+        console.log(`Serveur lancé sur le port ${port}`);
+      });
+    }
   })
   .catch((err) => {
     console.error("Échec de la connexion MongoDB ->", err);
@@ -39,8 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/catways', catwayRoutes);
-app.use('/reservations', reservationRoutes);
+app.use('/api/catways', catwayRoutes);
+app.use('/api/reservations', reservationRoutes);
 
 // Gestion des erreurs 404
 app.use(function(req, res, next) {
