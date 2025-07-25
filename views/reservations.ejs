@@ -8,35 +8,92 @@
 
   <div class="container mt-5">
     <h1>Réservations</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Numéro de la passerelle</th>
-          <th>Nom du client</th>
-          <th>Nom du bateau</th>
-          <th>Date d'arrivée</th>
-          <th>Date de départ</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% reservations.forEach(reservation => { %>
-          <tr>
-            <td><%= reservation.catwayNumber %></td>
-            <td><%= reservation.clientName %></td>
-            <td><%= reservation.boatName %></td>
-            <td><%= reservation.checkIn %></td>
-            <td><%= reservation.checkOut %></td>
-            <td>
-              <a href="/reservations/<%= reservation._id %>" class="btn btn-info">Voir</a>
-              <form action="/reservations/<%= reservation._id %>?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit" class="btn btn-danger">Supprimer</button>
-              </form>
-            </td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
+    
+    <!-- Add New Reservation Form -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5>Ajouter une nouvelle réservation</h5>
+      </div>
+      <div class="card-body">
+        <form action="/reservations" method="POST">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="catwayNumber">Numéro de la passerelle</label>
+              <input type="number" class="form-control" id="catwayNumber" name="catwayNumber" required min="1">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="clientName">Nom du client</label>
+              <input type="text" class="form-control" id="clientName" name="clientName" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="boatName">Nom du bateau</label>
+              <input type="text" class="form-control" id="boatName" name="boatName" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="checkIn">Date d'arrivée</label>
+              <input type="datetime-local" class="form-control" id="checkIn" name="checkIn" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="checkOut">Date de départ</label>
+              <input type="datetime-local" class="form-control" id="checkOut" name="checkOut" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">Ajouter la réservation</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Reservations Table -->
+    <div class="card">
+      <div class="card-header">
+        <h5>Liste des réservations</h5>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Numéro de la passerelle</th>
+              <th>Nom du client</th>
+              <th>Nom du bateau</th>
+              <th>Date d'arrivée</th>
+              <th>Date de départ</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% reservations.forEach(reservation => { %>
+              <tr>
+                <td><%= reservation.catwayNumber %></td>
+                <td><%= reservation.clientName %></td>
+                <td><%= reservation.boatName %></td>
+                <td><%= new Date(reservation.checkIn).toLocaleDateString('fr-FR', { 
+                  year: 'numeric', month: '2-digit', day: '2-digit', 
+                  hour: '2-digit', minute: '2-digit' 
+                }) %></td>
+                <td><%= new Date(reservation.checkOut).toLocaleDateString('fr-FR', { 
+                  year: 'numeric', month: '2-digit', day: '2-digit', 
+                  hour: '2-digit', minute: '2-digit' 
+                }) %></td>
+                <td>
+                  <a href="/reservations/<%= reservation._id %>" class="btn btn-info btn-sm">Voir</a>
+                  <form action="/reservations/<%= reservation._id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        
+        <% if (reservations.length === 0) { %>
+          <div class="alert alert-info text-center">
+            <p>Aucune réservation trouvée. Ajoutez-en une ci-dessus!</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
   </div>
 </body>
 </html>

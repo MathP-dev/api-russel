@@ -8,31 +8,76 @@
 
   <div class="container mt-5">
     <h1>Passerelles</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Numéro de la passerelle</th>
-          <th>Type</th>
-          <th>Etat</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% catways.forEach(catway => { %>
-          <tr>
-            <td><%= catway.catwayNumber %></td>
-            <td><%= catway.type %></td>
-            <td><%= catway.catwayState %></td>
-            <td>
-              <a href="/catways/<%= catway._id %>" class="btn btn-info">Voir</a>
-              <form action="/catways/<%= catway._id %>?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit" class="btn btn-danger">Supprimer</button>
-              </form>
-            </td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
+    
+    <!-- Add New Catway Form -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5>Ajouter une nouvelle passerelle</h5>
+      </div>
+      <div class="card-body">
+        <form action="/catways" method="POST">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="catwayNumber">Numéro de la passerelle</label>
+              <input type="number" class="form-control" id="catwayNumber" name="catwayNumber" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="type">Type</label>
+              <select class="form-control" id="type" name="type" required>
+                <option value="">Sélectionner un type</option>
+                <option value="long">Long</option>
+                <option value="short">Court</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="catwayState">État</label>
+              <input type="text" class="form-control" id="catwayState" name="catwayState" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">Ajouter la passerelle</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Catways Table -->
+    <div class="card">
+      <div class="card-header">
+        <h5>Liste des passerelles</h5>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Numéro de la passerelle</th>
+              <th>Type</th>
+              <th>Etat</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% catways.forEach(catway => { %>
+              <tr>
+                <td><%= catway.catwayNumber %></td>
+                <td><%= catway.type %></td>
+                <td><%= catway.catwayState %></td>
+                <td>
+                  <a href="/catways/<%= catway._id %>" class="btn btn-info btn-sm">Voir</a>
+                  <form action="/catways/<%= catway._id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette passerelle ?')">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        
+        <% if (catways.length === 0) { %>
+          <div class="alert alert-info text-center">
+            <p>Aucune passerelle trouvée. Ajoutez-en une ci-dessus!</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
   </div>
 </body>
 </html>

@@ -36,19 +36,19 @@
         <form action="/catways" method="POST">
           <h4>Créer une passerelle</h4>
           <div class="form-group">
-            <label for="catwayNumber">Numéro de la passerelle</label>
-            <input type="number" class="form-control" id="catwayNumber" name="catwayNumber" required>
+            <label for="catway_catwayNumber">Numéro de la passerelle</label>
+            <input type="number" class="form-control" id="catway_catwayNumber" name="catwayNumber" required>
           </div>
           <div class="form-group">
-            <label for="type">Type</label>
-            <select class="form-control" id="type" name="type" required>
+            <label for="catway_type">Type</label>
+            <select class="form-control" id="catway_type" name="type" required>
               <option value="short">Court</option>
               <option value="long">Long</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="catwayState">État</label>
-            <input type="text" class="form-control" id="catwayState" name="catwayState" required>
+            <label for="catway_catwayState">État</label>
+            <input type="text" class="form-control" id="catway_catwayState" name="catwayState" required>
           </div>
           <button type="submit" class="btn btn-primary">Créer une passerelle</button>
         </form>
@@ -61,24 +61,30 @@
         <form action="/reservations" method="POST">
           <h4>Créer une réservation</h4>
           <div class="form-group">
-            <label for="catwayNumber">Numéro de la passerelle</label>
-            <input type="number" class="form-control" id="catwayNumber" name="catwayNumber" required>
+            <label for="reservation_catwayNumber">Numéro de la passerelle</label>
+            <input type="number" class="form-control" id="reservation_catwayNumber" name="catwayNumber" required>
           </div>
           <div class="form-group">
-            <label for="clientName">Nom du client</label>
-            <input type="text" class="form-control" id="clientName" name="clientName" required>
+            <label for="reservation_clientName">Nom du client</label>
+            <input type="text" class="form-control" id="reservation_clientName" name="clientName" required>
           </div>
           <div class="form-group">
-            <label for="boatName">Nom du bateau</label>
-            <input type="text" class="form-control" id="boatName" name="boatName" required>
+            <label for="reservation_boatName">Nom du bateau</label>
+            <input type="text" class="form-control" id="reservation_boatName" name="boatName" required>
           </div>
           <div class="form-group">
             <label for="checkIn">Date d'arrivée</label>
-            <input type="datetime-local" class="form-control" id="checkIn" name="checkIn" required>
+            <input type="datetime-local" class="form-control" id="checkIn" name="checkIn" required 
+                   min="2024-01-01T00:00" max="2030-12-31T23:59"
+                   placeholder="Sélectionnez la date et l'heure d'arrivée">
+            <small class="form-text text-muted">Heure par défaut : 14h00 si non spécifiée</small>
           </div>
           <div class="form-group">
             <label for="checkOut">Date de départ</label>
-            <input type="datetime-local" class="form-control" id="checkOut" name="checkOut" required>
+            <input type="datetime-local" class="form-control" id="checkOut" name="checkOut" required
+                   min="2024-01-01T00:00" max="2030-12-31T23:59"
+                   placeholder="Sélectionnez la date et l'heure de départ">
+            <small class="form-text text-muted">Heure par défaut : 11h00 si non spécifiée</small>
           </div>
           <button type="submit" class="btn btn-primary">Créer une réservation</button>
         </form>
@@ -90,5 +96,86 @@
       <a href="/reservations" class="btn btn-secondary">Voir les réservations</a>
     </div>
   </div>
+
+  <script>
+    // Validation des dates de réservation
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkInInput = document.getElementById('checkIn');
+      const checkOutInput = document.getElementById('checkOut');
+      
+      if (!checkInInput || !checkOutInput) {
+        return;
+      }
+      
+      // Définir la date minimale à aujourd'hui avec l'heure actuelle
+      const now = new Date();
+      const today = now.toISOString().slice(0, 16);
+      checkInInput.min = today;
+      
+      // Fonction pour ajouter une heure par défaut si elle n'est pas spécifiée
+      function addDefaultTime(input, defaultHour = 14) {
+        input.addEventListener('change', function() {
+          if (this.value && this.value.length === 10) {
+            this.value += `T${defaultHour.toString().padStart(2, '0')}:00`;
+          }
+        });
+        
+        input.addEventListener('blur', function() {
+          if (this.value && this.value.length === 10) {
+            this.value += `T${defaultHour.toString().padStart(2, '0')}:00`;
+          }
+        });
+      }
+      
+      // Ajouter l'heure par défaut : 14h00 pour l'arrivée, 11h00 pour le départ
+      addDefaultTime(checkInInput, 14);
+      addDefaultTime(checkOutInput, 11);
+      
+      // Quand checkIn change, mettre à jour le min de checkOut
+      checkInInput.addEventListener('change', function() {
+        if (this.value) {
+          const checkInDate = new Date(this.value);
+          const nextDay = new Date(checkInDate);
+          nextDay.setDate(nextDay.getDate() + 1);
+          nextDay.setHours(0, 0, 0, 0);
+          checkOutInput.min = nextDay.toISOString().slice(0, 16);
+          
+          if (checkOutInput.value && new Date(checkOutInput.value) <= new Date(this.value)) {
+            const defaultCheckOut = new Date(checkInDate);
+            defaultCheckOut.setDate(defaultCheckOut.getDate() + 1);
+            defaultCheckOut.setHours(11, 0, 0, 0);
+            checkOutInput.value = defaultCheckOut.toISOString().slice(0, 16);
+          }
+        }
+      });
+      
+      // Validation avant soumission
+      const form = document.querySelector('form[action="/reservations"]');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          if (!checkInInput.value) {
+            e.preventDefault();
+            alert('Veuillez sélectionner une date d\'arrivée');
+            return false;
+          }
+          
+          if (!checkOutInput.value) {
+            e.preventDefault();
+            alert('Veuillez sélectionner une date de départ');
+            return false;
+          }
+          
+          const checkIn = new Date(checkInInput.value);
+          const checkOut = new Date(checkOutInput.value);
+          
+          if (checkOut <= checkIn) {
+            e.preventDefault();
+            alert('La date de départ doit être après la date d\'arrivée');
+            return false;
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

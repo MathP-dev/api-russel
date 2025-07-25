@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Oops ! Une erreur s'est produite</h4>
+          <p class="mb-0">
+            <strong>Erreur <%= error.status || 500 %> :</strong> 
+            <%= message %>
+          </p>
+          <% if (error.stack && process.env.NODE_ENV === 'development') { %>
+            <hr>
+            <pre class="small"><%= error.stack %></pre>
+          <% } %>
+        </div>
+        
+        <div class="text-center">
+          <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+          <a href="/dashboard" class="btn btn-secondary">Retour au dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
